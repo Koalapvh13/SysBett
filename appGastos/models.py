@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
@@ -42,9 +44,22 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
-# todo - ADD CLASS TRANSAÇÃO
-
 # todo - ADD CLASS CATEGORIA
+class Categoria(models.Model):
+    descricao = models.CharField(max_length=50, verbose_name="Descrição")
+    tipo = models.CharField(max_length=50, verbose_name="Tipo")
+
+
+# todo - ADD CLASS TRANSAÇÃO
+class Transacao(models.Model):
+    descricao = models.CharField(max_length=90, verbose_name="Descrição")
+    valor = models.FloatField(verbose_name="Valor")
+    usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    data = models.DateField(verbose_name="Data", default=datetime.today)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=50, verbose_name="Tipo", choices=[(0, 'Receita'), (1, 'Despesa')])
+
 
 # todo - ADD CLASS RELATÓRIO
- 
+class Relatorio(models.Model):
+    pass

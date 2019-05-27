@@ -48,3 +48,5 @@ class PersonalUserAdmin(UserAdmin):
 
 
 admin.site.register(Usuarios,  PersonalUserAdmin)
+admin.site.register(Categoria)
+admin.site.register(Transacao)

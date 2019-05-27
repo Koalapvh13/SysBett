@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from appGastos.models import *
+from appGastos.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('categoria/', cadastro_categoria),
+    path('despesa/', cadastro_despesa),
+    path('receita/', cadastro_receita),
+    path('user/', cadastro_usuario),
 ]
