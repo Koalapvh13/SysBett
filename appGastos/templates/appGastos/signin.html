@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{title}}</title>
+    <title>Title</title>
 </head>
 <body>
-    <h1>{{title}}</h1>
-    <form action="{% url 'users' %}">
+    <h1>Login</h1>
+    <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         {{form.as_p}}
-        <input type="submit">
+        <input type="submit" value="LOGIN">
     </form>
 </body>
 </html>

@@ -13,16 +13,22 @@ def do_login(request):
             auth = CustomAuthUser().authenticate(email=request.POST['email'], senha=request.POST['senha'])
             if auth is not None:
                 login(request, auth)
-                return HttpResponseRedirect('/restrito')
+                return HttpResponseRedirect('/despesa')
             else:
-                return HttpResponseRedirect('/cadastro')
-        return render(request, 'login_siscop/login2.html')
-    return HttpResponseRedirect('/restrito')
+                return HttpResponseRedirect('/receita')
+        return render(request, 'appGastos/signin.html', {'form': LoginForm()})
+    return HttpResponseRedirect('/categoria')
 
 
 def cadastro_usuario(request):
-    dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
-    return render(request, 'appGastos/signup.html', dicio)
+    if request.method == 'POST':
+        salva = CustomUserCreationForm(request.POST)
+        salva.is_valid()
+        salva.save()
+        return render(request, 'appGastos/cadCategoria.html', {'form': ReceitaForm(), 'title': "salvo"})
+    else:
+        dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
+        return render(request, 'appGastos/signup.html', dicio)
 
 
 def cadastro_categoria(request):

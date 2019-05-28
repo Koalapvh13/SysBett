@@ -20,8 +20,9 @@ from appGastos.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('categoria/', cadastro_categoria),
-    path('despesa/', cadastro_despesa),
-    path('receita/', cadastro_receita),
-    path('user/', cadastro_usuario),
+    path('categoria/', cadastro_categoria, name='categoria'),
+    path('despesa/', cadastro_despesa, name='despesa'),
+    path('receita/', cadastro_receita, name='receita'),
+    path('users/', cadastro_usuario, name='users'),
+    path('login/', do_login, name='login'),
 ]

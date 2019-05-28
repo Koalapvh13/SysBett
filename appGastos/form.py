@@ -10,6 +10,11 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['nome', 'email']
 
 
+class LoginForm(forms.Form):
+    email = forms.CharField(widget=forms.EmailInput(attrs={'id': 'email'}))
+    senha = forms.CharField(widget=forms.PasswordInput(attrs={'id': 'senha'}))
+
+
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
