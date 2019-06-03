@@ -55,6 +55,7 @@ def cadastro_despesa(request):
         if salva.is_valid():  # TODO - FAZER ESSA DESGRAÇA SALVAR
             despesa = salva.save(commit=False)
             despesa.usuario = request.user
+            despesa.tipo = 1
             despesa.save()
             return HttpResponseRedirect('/receita')
     dicio = {"form": DespesaForm(), "title": "Cadastrar Despesa", 'urli': 'despesa'}
