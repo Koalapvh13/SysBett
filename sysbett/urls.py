@@ -25,4 +25,5 @@ urlpatterns = [
     path('receita/', cadastro_receita, name='receita'),
     path('users/', cadastro_usuario, name='users'),
     path('login/', do_login, name='login'),
+    path('index/', index),
 ]

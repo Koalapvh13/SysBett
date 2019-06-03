@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="{% static 'appGastos/css/styles.min.css' %}">
+</head>
+
+<body>
+<div>
+    <nav class="navbar navbar-light navbar-expand-md custom-header">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img class="img-fluid" src="{% static 'appGastos/img/KD-White.png'%}" width="auto" height="auto"
+                     style="width:43px;margin:-26px;margin-right:-27px;margin-top:-32px;margin-left:-33px;margin-bottom:-31px;">
+                <span style="margin-left:27px;font-family:'News Cycle', sans-serif;color:rgb(253,250,254);">&nbsp;SysBettina &nbsp;</span>
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-collapse" style="padding-left:25px;">
+                {% if user.is_authenticated %}
+                <ul class="nav navbar-nav links" style="margin-right:0px;">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Receitas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Despesas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#"> Relatórios</a></li>
+                </ul>
+
+
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">
+                            <img src="{% static 'appGastos/img/bettina.jpg'%}" class="dropdown-image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                            <a class="dropdown-item" role="presentation" href="#">Settings </a>
+                            <a class="dropdown-item" role="presentation" href="#">Payments </a>
+                            <a class="dropdown-item" role="presentation" href="#">Logout </a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+                <span class="navbar-text nav navbar-nav ml-auto">
+                    <span class="actions">
+                        <a class="text-white login" href="#" style="margin:5px;">Log In</a>
+                        <button class="btn btn-primary action-button" type="button">Sign Up</button>
+                    </span>
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</div>
+{% block content %}
+{% endblock %}
+<div class="footer-basic">
+    <footer>
+        <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
+                class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><a href="#">Services</a></li>
+            <li class="list-inline-item"><a href="#">About</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p class="copyright">KoalaDevs © 2019</p>
+    </footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

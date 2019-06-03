@@ -49,6 +49,9 @@ class Categoria(models.Model):
     descricao = models.CharField(max_length=50, verbose_name="Descrição")
     tipo = models.CharField(max_length=50, verbose_name="Tipo")
 
+    def __str__(self):
+        return self.descricao
+
 
 # todo - ADD CLASS TRANSAÇÃO
 class Transacao(models.Model):
@@ -59,6 +62,8 @@ class Transacao(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=50, verbose_name="Tipo", choices=[(0, 'Receita'), (1, 'Despesa')])
 
+    def __str__(self):
+        return self.descricao
 
 # todo - ADD CLASS RELATÓRIO
 class Relatorio(models.Model):
