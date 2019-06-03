@@ -39,6 +39,20 @@ class DespesaForm(forms.ModelForm):
         }
 
 
+class TransacaoForm(forms.ModelForm):
+    class Meta:
+        model = Transacao
+        exclude = ['tipo', 'usuario']
+
+        widgets = {
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
+            'valor': forms.NumberInput(attrs={'class': 'form-control'}),
+            'data': forms.DateInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class': 'form-control'}),
+
+        }
+
+
 class ReceitaForm(forms.ModelForm):
     class Meta:
         model = Transacao

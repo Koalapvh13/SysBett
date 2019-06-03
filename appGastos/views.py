@@ -50,19 +50,28 @@ def cadastro_categoria(request):
 
 @login_required
 def cadastro_receita(request):
-    dicio = {"form": ReceitaForm(), "title": "Cadastrar Receita", 'urli': 'receita'}
-    return render(request, 'appGastos/cadReceita.html', dicio)
+    if request.user.is_authenticated and request.method == 'POST':
+        salva = TransacaoForm(request.POST)
+        if salva.is_valid():  # TODO - FAZER ESSA DESGRAÇA SALVAR
+            receita = salva.save(commit=False)
+            receita.usuario = request.user
+            receita.tipo = 0
+            receita.save()
+            return HttpResponseRedirect('/categoria')
+    dicio = {"form": TransacaoForm(), "title": "Cadastrar Receita", 'urli': 'receita'}
+    return render(request, 'appGastos/cadTransacao.html', dicio)
 
 
 @login_required
 def cadastro_despesa(request):
     if request.user.is_authenticated and request.method == 'POST':
-        salva = DespesaForm(request.POST)
+        salva = TransacaoForm(request.POST)
         if salva.is_valid():  # TODO - FAZER ESSA DESGRAÇA SALVAR
             despesa = salva.save(commit=False)
             despesa.usuario = request.user
             despesa.tipo = 1
             despesa.save()
             return HttpResponseRedirect('/receita')
-    dicio = {"form": DespesaForm(), "title": "Cadastrar Despesa", 'urli': 'despesa'}
-    return render(request, 'appGastos/cadDespesa.html', dicio)
+    dicio = {"form": TransacaoForm(), "title": "Cadastrar Despesa", 'urli': 'despesa'}
+    return render(request, 'appGastos/cadTransacao.html', dicio)
+

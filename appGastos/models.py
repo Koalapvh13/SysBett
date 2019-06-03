@@ -52,7 +52,6 @@ class Categoria(models.Model):
         return self.descricao
 
 
-
 class Transacao(models.Model):
     descricao = models.CharField(max_length=90, verbose_name="Descrição")
     valor = models.FloatField(verbose_name="Valor")
