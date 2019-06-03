@@ -44,7 +44,6 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
-# todo - ADD CLASS CATEGORIA
 class Categoria(models.Model):
     descricao = models.CharField(max_length=50, verbose_name="Descrição")
     tipo = models.CharField(max_length=50, verbose_name="Tipo")
@@ -53,7 +52,6 @@ class Categoria(models.Model):
         return self.descricao
 
 
-# todo - ADD CLASS TRANSAÇÃO
 class Transacao(models.Model):
     descricao = models.CharField(max_length=90, verbose_name="Descrição")
     valor = models.FloatField(verbose_name="Valor")
