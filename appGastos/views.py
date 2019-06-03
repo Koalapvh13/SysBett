@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,12 @@ def do_login(request):
                 return HttpResponseRedirect('/receita')
         return render(request, 'appGastos/signin.html', {'form': LoginForm()})
     return HttpResponseRedirect('/admin')
+
+
+def do_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return HttpResponseRedirect('/login')
 
 
 def index(request):

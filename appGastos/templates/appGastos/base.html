@@ -30,8 +30,8 @@
             <div class="collapse navbar-collapse" id="navbar-collapse" style="padding-left:25px;">
                 {% if user.is_authenticated %}
                 <ul class="nav navbar-nav links" style="margin-right:0px;">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Receitas</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">Despesas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'receita' %}">Receitas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'despesa' %}">Despesas</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="#"> Relatórios</a></li>
                 </ul>
 
@@ -42,9 +42,7 @@
                             <img src="{% static 'appGastos/img/bettina.jpg'%}" class="dropdown-image">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" role="menu">
-                            <a class="dropdown-item" role="presentation" href="#">Settings </a>
-                            <a class="dropdown-item" role="presentation" href="#">Payments </a>
-                            <a class="dropdown-item" role="presentation" href="#">Logout </a>
+                            <a class="dropdown-item" role="presentation" href="{% url 'logout' %}">Logout </a>
                         </div>
                     </li>
                 </ul>
