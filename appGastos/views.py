@@ -52,7 +52,7 @@ def cadastro_categoria(request):
 def cadastro_receita(request):
     if request.user.is_authenticated and request.method == 'POST':
         salva = TransacaoForm(request.POST)
-        if salva.is_valid():  # TODO - FAZER ESSA DESGRAÇA SALVAR
+        if salva.is_valid():
             receita = salva.save(commit=False)
             receita.usuario = request.user
             receita.tipo = 0
