@@ -33,7 +33,7 @@ class TransacaoForm(forms.ModelForm):
         widgets = {
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'valor': forms.NumberInput(attrs={'class': 'form-control'}),
-            'data': forms.DateInput(attrs={'class': 'form-control'}),
+            'data': forms.DateInput(attrs={'class': 'form-control', 'type': "date"}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
 
         }
