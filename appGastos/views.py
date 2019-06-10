@@ -37,7 +37,7 @@ def cadastro_usuario(request):
             salva = CustomUserCreationForm(request.POST)
             salva.is_valid()
             salva.save()
-            return render(request, 'appGastos/cadCategoria.html', {'form': ReceitaForm(), 'title': "salvo"})
+            return render(request, 'appGastos/cadCategoria.html', {'form': TransacaoForm(), 'title': "salvo"})
         else:
             dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
             return render(request, 'appGastos/signup.html', dicio)
@@ -75,3 +75,23 @@ def cadastro_despesa(request):
     dicio = {"form": TransacaoForm(), "title": "Cadastrar Despesa", 'urli': 'despesa'}
     return render(request, 'appGastos/cadTransacao.html', dicio)
 
+
+@login_required
+def listagem_despesa(request):
+    dicio = {"transacao": Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data'), "lenT": len(Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data')), "title": "Despesas"}
+    return render(request, 'appGastos/listagem.html', dicio)
+
+
+@login_required
+def listagem_receita(request):
+    dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data'),
+             "lenT": len(Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data')),
+             "title": "Receitas"}
+    return render(request, 'appGastos/listagem.html', dicio)
+
+
+@login_required
+def descricao_conta(request, idit):
+    dicio = {"transacao": Transacao.objects.filter(pk=idit, usuario=request.user),
+             "title": "Beirute"}
+    return render(request, 'appGastos/item.html', dicio)

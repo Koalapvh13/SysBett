@@ -26,5 +26,8 @@ urlpatterns = [
     path('users/', cadastro_usuario, name='users'),
     path('login/', do_login, name='login'),
     path('index/', index),
+    path('despesas/', listagem_despesa),
+    path('receitas/', listagem_receita),
+    path('receitas/<int:idit>', descricao_conta, name="decreceita"),
     path('logout/', do_logout, name='logout'),
 ]

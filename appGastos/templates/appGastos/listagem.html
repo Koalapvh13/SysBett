@@ -1,0 +1,40 @@
+{% extends "appGastos/base.html" %}
+
+{% block title %}{{title}} - KoalaDevs SysBettina{% endblock %}
+
+{% block content %}
+
+<div style="margin:30px">
+     <h1  class = "display-3 bold-text">{{title}}</h1>
+
+
+{% if lenT > 0 %}
+<table class="table table-reflow flex-wrap" style="margin: 0px 10px">
+    <thead>
+    <tr>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Data</th>
+        <th>Categoria</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for item in transacao %}
+
+            <tr>
+                <a href="{% url 'decreceita' item.id %}">
+                    <td>{{item.descricao}}</td>
+                    <td>R$ {{item.valor}}</td>
+                    <td>{{item.data}}</td>
+                    <td>{{item.categoria}}</td>
+                </a>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h3>Não há {{title}} Registradas!</h3>
+</div>
+{% endif %}
+{% endblock %}
