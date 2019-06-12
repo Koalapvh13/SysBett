@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect
+from django.db.models import Count, Sum
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from appGastos.form import *
@@ -28,7 +29,10 @@ def do_logout(request):
 
 
 def index(request):
-    return render(request, 'appGastos/index.html')
+    dicio = {"transacao": Transacao.objects.filter(usuario=request.user).order_by('-data'),
+             "lenT": len(Transacao.objects.filter(usuario=request.user).order_by('data')),
+             "title": "Receitas"}
+    return render(request, 'appGastos/dashboard.html', dicio)
 
 
 def cadastro_usuario(request):
@@ -95,3 +99,29 @@ def descricao_conta(request, idit):
     dicio = {"transacao": Transacao.objects.filter(pk=idit, usuario=request.user),
              "title": "Beirute"}
     return render(request, 'appGastos/item.html', dicio)
+
+
+def api_transacoes(request, transacao):
+    if request.user.is_authenticated:
+        lbls = []
+        values = []
+        data = {}
+        if transacao == 'despesa':
+            tipo_transacao = 1
+        elif transacao == 'receita':
+            tipo_transacao = 0
+        else:
+            data = {
+                "labels": "NdA",
+                'values': 0
+            }
+            return JsonResponse(data)
+
+        for i in Transacao.objects.filter(tipo=tipo_transacao, usuario=request.user).values('categoria').annotate(total=Sum('valor')).order_by('categoria'):
+            lbls.append(Categoria.objects.get(pk=i['categoria']).descricao)
+            values.append(i['total'])
+        data = {
+            "labels": lbls,
+            'values': values
+        }
+        return JsonResponse(data)
