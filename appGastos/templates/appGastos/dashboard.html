@@ -10,7 +10,7 @@
             <div class="card-body float-right border shadow-lg p-3 mb-5  rounded bg-warning"
                  style="height:80px; width:200px; margin-right:20px">
                 <h6 CLASS="font-weight-bold text-white">SALDO</h6>
-                <p class="card-text text-right text-white">
+                <p class="card-text text-right text-white" id="saldo">
                     R$ 500,00
                 </p>
             </div>
@@ -21,7 +21,7 @@
             <div class="card-body float-right border shadow-lg p-3 mb-5  rounded bg-danger"
                  style="height:80px; width:200px; margin-right:20px">
                 <h6 CLASS="font-weight-bold text-white">DESPESAS</h6>
-                <p class="card-text text-right text-white">
+                <p class="card-text text-right text-white" id="despesa">
                     R$ 500,00
                 </p>
             </div>
@@ -33,8 +33,25 @@
             <div class="card-body float-right border shadow-lg p-3 mb-5  rounded bg-success"
                  style="height:80px; width:200px; margin-right:20px">
                 <h6 CLASS="font-weight-bold text-white">RECEITAS</h6>
-                <p class="card-text text-right text-white">
+                <p class="card-text text-right text-white" id="receita">
                     R$ 500,00
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="footer-basic" style="margin-top:-5%">
+    <div class="row justify-content-center">
+
+        <div class="col-sm-6 border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
+            <div class="card-body">
+                <h3 CLASS="font-weight-bold">RECEITAS x DESPESAS</h3>
+                <hr>
+                <p class="card-text">
+                    <canvas id="barchart-chart1" width="100" height="50"></canvas>
                 </p>
             </div>
 
@@ -76,6 +93,7 @@
                 <table class="table table-reflow flex-wrap">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>Descrição</th>
                         <th>Valor</th>
                         <th>Data</th>
@@ -86,17 +104,14 @@
                     {% for item in transacao %}
                     {% if forloop.counter < 6 %}
                     <tr>
-
                         <td>
-                            {{item.descricao}}
                             {% if item.tipo == "0" %}
                             <p class="text-success">▲</p>
                             {% else %}
                             <p class="text-danger">▼</p>
                             {% endif %}
-
-
                         </td>
+                        <td>{{item.descricao}}</td>
                         <td>R$ {{item.valor}}</td>
                         <td>{{item.data}}</td>
 
@@ -113,6 +128,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
 
@@ -141,6 +157,65 @@ $.ajax({
     }
 })
 
+$.ajax({
+    method: "GET",
+    url: 'api/valores/',
+    success:function(resp){
+        $('#saldo').html("R$ " + resp.saldo)
+        $('#receita').html("R$ " + resp.receita)
+        $('#despesa').html("R$ " + resp.despesa)
+        barChart('barchart-chart1', ["RECEITAS", "DESPESAS"],[resp.receita, resp.despesa])
+    },
+    error: function(err){
+        console.log(err)
+
+    }
+})
+
+function barChart(id, arrayLabels, arrayValues){
+   /*  new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: {
+              labels: arrayLabels,
+              datasets: [
+                {
+                  label: "Receita (R$)",
+                  backgroundColor: ["#28A745", "#DC3545"],
+                  data: arrayValues
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text:"562 "
+              }
+            }
+        });
+     */
+        new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: {
+            labels: arrayLabels,
+            datasets: [
+                {
+                label: "R$",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                data: arrayValues
+                }
+            ]
+            },
+            options: {
+            legend: { display: false },
+            title: {
+                display: false,
+                text: 'Predicted world population (millions) in 2050'
+            }
+            }
+        });
+    
+    }
+
 function donutChart(id, arrayLabels, arrayValues, trans){
 
     new Chart(document.getElementById(id), {
@@ -163,15 +238,5 @@ function donutChart(id, arrayLabels, arrayValues, trans){
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
 </script>
 {% endblock %}

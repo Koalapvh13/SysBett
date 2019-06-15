@@ -24,7 +24,7 @@
 <div>
     <nav class="navbar navbar-light navbar-expand-md custom-header">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{% url 'mainpage' %}">
                 <img class="img-fluid" src="{% static 'appGastos/img/KD-White.png'%}" width="auto" height="auto"
                      style="width:43px;margin:-26px;margin-right:-27px;margin-top:-32px;margin-left:-33px;margin-bottom:-31px;">
                 <span style="margin-left:27px;font-family:'News Cycle', sans-serif;color:rgb(253,250,254);">&nbsp;SysBettina &nbsp;</span>
@@ -35,8 +35,8 @@
             <div class="collapse navbar-collapse" id="navbar-collapse" style="padding-left:25px;">
                 {% if user.is_authenticated %}
                 <ul class="nav navbar-nav links" style="margin-right:0px;">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'receita' %}">Receitas</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'despesa' %}">Despesas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'listareceita' %}">Receitas</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'listadespesa' %}">Despesas</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="#"> Relatórios</a></li>
                 </ul>
 

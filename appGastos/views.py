@@ -2,7 +2,10 @@ from django.contrib.auth import login, logout
 from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from appGastos.reports import Render
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+
 from appGastos.form import *
 
 # Create your views here.
@@ -15,7 +18,7 @@ def do_login(request):
             auth = CustomAuthUser().authenticate(email=request.POST['email'], senha=request.POST['senha'])
             if auth is not None:
                 login(request, auth)
-                return HttpResponseRedirect('/despesa')
+                return HttpResponseRedirect('/')
             else:
                 return HttpResponseRedirect('/receita')
         return render(request, 'appGastos/signin.html', {'form': LoginForm()})
@@ -45,6 +48,7 @@ def cadastro_usuario(request):
         else:
             dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
             return render(request, 'appGastos/signup.html', dicio)
+
 
 @login_required
 def cadastro_categoria(request):
@@ -82,13 +86,15 @@ def cadastro_despesa(request):
 
 @login_required
 def listagem_despesa(request):
-    dicio = {"transacao": Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data'), "lenT": len(Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data')), "title": "Despesas"}
+    dicio = {"transacao": Transacao.objects.filter(tipo="1", usuario=request.user).order_by('-data'),
+             "lenT": len(Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data')),
+             "title": "Despesas"}
     return render(request, 'appGastos/listagem.html', dicio)
 
 
 @login_required
 def listagem_receita(request):
-    dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data'),
+    dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('-]data'),
              "lenT": len(Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data')),
              "title": "Receitas"}
     return render(request, 'appGastos/listagem.html', dicio)
@@ -101,6 +107,7 @@ def descricao_conta(request, idit):
     return render(request, 'appGastos/item.html', dicio)
 
 
+@login_required
 def api_transacoes(request, transacao):
     if request.user.is_authenticated:
         lbls = []
@@ -117,7 +124,8 @@ def api_transacoes(request, transacao):
             }
             return JsonResponse(data)
 
-        for i in Transacao.objects.filter(tipo=tipo_transacao, usuario=request.user).values('categoria').annotate(total=Sum('valor')).order_by('categoria'):
+        for i in Transacao.objects.filter(tipo=tipo_transacao, usuario=request.user).values('categoria').annotate(
+                total=Sum('valor')).order_by('categoria'):
             lbls.append(Categoria.objects.get(pk=i['categoria']).descricao)
             values.append(i['total'])
         data = {
@@ -125,3 +133,45 @@ def api_transacoes(request, transacao):
             'values': values
         }
         return JsonResponse(data)
+
+
+@login_required
+def api_values(request):
+    if request.user.is_authenticated:
+        try:
+            receita = Transacao.objects.filter(tipo=0, usuario=request.user)
+            despesa = Transacao.objects.filter(tipo=1, usuario=request.user)
+
+            val_receita = 0
+            val_despesa = 0
+
+            for i in receita:
+                val_receita += i.valor
+
+            for j in despesa:
+                val_despesa += j.valor
+
+            data = {
+                "receita": val_receita,
+                "despesa": val_despesa,
+                "saldo": val_receita-val_despesa
+            }
+            return JsonResponse(data)
+        except Exception:
+            data = {
+                "erro": Exception,
+            }
+            return JsonResponse(data)
+
+
+
+@login_required
+def pagepdf(request):
+    sales = Transacao.objects.all()
+    today = timezone.now()
+    params = {
+        'today': today,
+        'sales': sales,
+        'request': request
+    }
+    return Render.render('appGastos/pdf.html', params)
