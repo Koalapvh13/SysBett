@@ -86,26 +86,58 @@ def cadastro_despesa(request):
 
 @login_required
 def listagem_despesa(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
+
     dicio = {"transacao": Transacao.objects.filter(tipo="1", usuario=request.user).order_by('-data'),
              "lenT": len(Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data')),
              'urli': 'despesa',
-             "title": "Despesa"}
+             "title": "Despesa",
+             "salvo": salvo}
     return render(request, 'appGastos/listagem.html', dicio)
 
 
 @login_required
 def listagem_receita(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
+
     dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('-data'),
              "lenT": len(Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data')),
              'urli': 'receita',
-             "title": "Receita"}
+             "title": "Receita",
+             "salvo": salvo}
     return render(request, 'appGastos/listagem.html', dicio)
 
 
 @login_required
 def descricao_conta(request, idit):
-    dicio = {"transacao": Transacao.objects.filter(pk=idit, usuario=request.user),
-             "title": "Beirute"}
+    tipo = Transacao.objects.get(pk=idit).tipo
+    print(tipo)
+    if request.method == 'POST':
+        salva = TransacaoForm(request.POST, instance=Transacao.objects.get(pk=idit))
+        if salva.is_valid():
+            salva.save()
+            if tipo == "0":
+                return HttpResponseRedirect('/listareceitas/?st=0')
+            else:
+                return HttpResponseRedirect('/listadespesas/?st=0')
+        else:
+            pass
+    if tipo == "0":
+        dicio = {
+            "form": TransacaoForm(instance=Transacao.objects.get(pk=idit)),
+            "title": "Atualizar Receita",
+            'urli': 'decreceita',
+            'id_reg': idit}
+    else:
+        dicio = {
+            "form": TransacaoForm(instance=Transacao.objects.get(pk=idit)),
+            "title": "Atualizar registro",
+            'urli': 'decdespesa',
+            'id_reg': idit}
     return render(request, 'appGastos/item.html', dicio)
 
 

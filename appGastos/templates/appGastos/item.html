@@ -4,26 +4,27 @@
 
 {% block content %}
 
-<h1  class = "display-3 bold-text">{{title}}</h1>
-
-<table class="table table-reflow flex-wrap" style="margin: 0px 10px">
-    <thead>
-    <tr>
-        <th>Descrição</th>
-        <th>Valor</th>
-        <th>Data</th>
-        <th>Categoria</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for item in transacao %}
-            <tr>
-                <td>{{item.descricao}}</td>
-                <td>R$ {{item.valor}}</td>
-                <td>{{item.data}}</td>
-                <td>{{item.categoria}}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="row justify-content-center">
+    <div class="card" style="margin-top: 100px; width: 900px">
+        <article class="card-body">
+            <h3 CLASS="font-weight-bold">{{title}}</h3>
+            <hr>
+            <br>
+            <form style="color: black" method="post" action="{% url urli id_reg %}">
+                {% csrf_token %}
+                {% for f in form %}
+                    {% if f.label_tag != "Usuario:" or f.label_tag != "Tipo:" %}
+                        {{f.label_tag }}
+                        {{f}}
+                    {% endif %}
+                <br>
+                {% endfor %}
+                <br>
+                 <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Atualizar</button>
+                </div>
+            </form>
+        </article>
+    </div>
+</div>
 {% endblock %}

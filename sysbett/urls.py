@@ -32,5 +32,6 @@ urlpatterns = [
     path('api/transacao/<slug:transacao>/', api_transacoes),
     path('api/valores/', api_values),
     path('receitas/<int:idit>', descricao_conta, name="decreceita"),
+    path('despesas/<int:idit>', descricao_conta, name="decdespesa"),
     path('logout/', do_logout, name='logout'),
 ]
