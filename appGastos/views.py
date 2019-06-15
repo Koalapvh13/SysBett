@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+
 from appGastos.reports import Render
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -43,7 +44,7 @@ def index(request):
     else:
         return render(request, 'appGastos/index.html')
 
-
+# TODO - uSER CREATE
 def cadastro_usuario(request):
     if not request.user.is_authenticated:
         if request.method == 'POST':
@@ -55,7 +56,7 @@ def cadastro_usuario(request):
             dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
             return render(request, 'appGastos/signup.html', dicio)
 
-
+# TODO - categoria vai Continuar?
 @login_required
 def cadastro_categoria(request):
     dicio = {"form": CategoriaForm(), "title": "Cadastrar Categoria", 'urli': 'categoria'}
@@ -64,6 +65,9 @@ def cadastro_categoria(request):
 
 @login_required
 def cadastro_receita(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
     if request.user.is_authenticated and request.method == 'POST':
         salva = TransacaoForm(request.POST)
         if salva.is_valid():
@@ -71,13 +75,16 @@ def cadastro_receita(request):
             receita.usuario = request.user
             receita.tipo = 0
             receita.save()
-            return HttpResponseRedirect('/categoria')
-    dicio = {"form": TransacaoForm(), "title": "Cadastrar Receita", 'urli': 'receita'}
+            return HttpResponseRedirect('/receita/?st=0')
+    dicio = {"form": TransacaoForm(), "title": "Cadastrar Receita", 'urli': 'receita', "salvo": salvo}
     return render(request, 'appGastos/cadTransacao.html', dicio)
 
 
 @login_required
 def cadastro_despesa(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
     if request.user.is_authenticated and request.method == 'POST':
         salva = TransacaoForm(request.POST)
         if salva.is_valid():
@@ -85,8 +92,8 @@ def cadastro_despesa(request):
             despesa.usuario = request.user
             despesa.tipo = 1
             despesa.save()
-            return HttpResponseRedirect('/receita')
-    dicio = {"form": TransacaoForm(), "title": "Cadastrar Despesa", 'urli': 'despesa'}
+            return HttpResponseRedirect('/despesa/?st=0')
+    dicio = {"form": TransacaoForm(), "title": "Cadastrar Despesa", 'urli': 'despesa', "salvo": salvo}
     return render(request, 'appGastos/cadTransacao.html', dicio)
 
 
@@ -194,7 +201,7 @@ def api_values(request):
             data = {
                 "receita": val_receita,
                 "despesa": val_despesa,
-                "saldo": val_receita-val_despesa
+                "saldo": round(val_receita-val_despesa, 2)
             }
             return JsonResponse(data)
         except Exception:
@@ -202,8 +209,6 @@ def api_values(request):
                 "erro": Exception,
             }
             return JsonResponse(data)
-
-
 
 @login_required
 def pagepdf(request):

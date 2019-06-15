@@ -11,6 +11,14 @@
         <article class="card-body">
             <h3 CLASS="font-weight-bold">{{title}}</h3>
             <hr>
+            {% if salvo %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Salvo com Sucesso!</strong>
+            </div>
+            {% endif %}
             <br>
             <form style="color: black" method="post" action="{% url urli %}">
                 {% csrf_token %}
