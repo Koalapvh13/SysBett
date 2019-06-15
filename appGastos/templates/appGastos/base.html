@@ -47,6 +47,8 @@
                             <img src="{% static 'appGastos/img/bettina.jpg'%}" class="dropdown-image">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" role="menu">
+
+                            <a class="dropdown-item" role="presentation" href="{% url 'configurações' %}">Logout </a>
                             <a class="dropdown-item" role="presentation" href="{% url 'logout' %}">Logout </a>
                         </div>
                     </li>
@@ -54,8 +56,8 @@
                 {% else %}
                 <span class="navbar-text nav navbar-nav ml-auto">
                     <span class="actions">
-                        <a class="text-white login" href="#" style="margin:5px;">Log In</a>
-                        <button class="btn btn-primary action-button" type="button">Sign Up</button>
+                        <a class="text-white login" href="{% url 'login' %}" style="margin:5px;">Log In</a>
+                        <button class="btn btn-primary action-button" type="button"><a class="text-white login" href="{% url 'users' %}" style="margin:5px;">Sign Up</a></button>
                     </span>
                 </span>
                 {% endif %}

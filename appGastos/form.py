@@ -9,6 +9,11 @@ class CustomUserCreationForm(UserCreationForm):
         model = Usuarios
         fields = ['nome', 'email']
 
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome Completo...'}),
+            'email': forms.EmailInput(attrs={'id': 'email', 'class': 'form-control', 'placeholder': 'E-mail...'})
+        }
+
 
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.EmailInput(attrs={'id': 'email', 'class': 'form-control', 'placeholder': 'E-mail...'}))

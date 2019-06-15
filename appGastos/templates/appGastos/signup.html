@@ -1,15 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-     <h1>{{title}}</h1>
-    <form method="post" action="{% url 'users' %}" >
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit">
-    </form>
-</body>
-</html>
+{% extends "appGastos/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+    <div class="card" style="margin-top: 100px; width: 900px">
+        <article class="card-body">
+            <h3 CLASS="font-weight-bold">{{title}}</h3>
+            <hr>
+            {% if salvo %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Salvo com Sucesso! Clique <a href="{%url 'login' %}">aqui</a> para fazer Login.</strong>
+            </div>
+            {% endif %}
+            <br>
+            <form style="color: black" method="post" action="{% url urli %}">
+                {% csrf_token %}
+                {% for f in form %}
+
+                        {{f.label_tag }}
+                        {{f}}
+                <br>
+                {% endfor %}
+                <br>
+                 <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                </div>
+            </form>
+        </article>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock %}

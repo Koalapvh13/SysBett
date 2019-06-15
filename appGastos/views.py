@@ -46,15 +46,19 @@ def index(request):
 
 # TODO - uSER CREATE
 def cadastro_usuario(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
     if not request.user.is_authenticated:
         if request.method == 'POST':
             salva = CustomUserCreationForm(request.POST)
             salva.is_valid()
             salva.save()
-            return render(request, 'appGastos/cadCategoria.html', {'form': TransacaoForm(), 'title': "salvo"})
+            return HttpResponseRedirect("/users/?st=0")
         else:
-            dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário"}
+            dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário", 'urli': "users", "salvo": salvo}
             return render(request, 'appGastos/signup.html', dicio)
+    return HttpResponseRedirect("/")
 
 # TODO - categoria vai Continuar?
 @login_required
