@@ -12,6 +12,14 @@
         <article class="card-body">
             <h1>Login</h1>
             <hr>
+            {% if salvo %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Usuário e/ou Senha incorretos!</strong>
+            </div>
+            {% endif %}
             <br>
             <form  method="post" action="{% url 'login' %}">
                  {% csrf_token %}

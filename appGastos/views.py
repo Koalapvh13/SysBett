@@ -13,6 +13,9 @@ from appGastos.customAuthUser import CustomAuthUser
 
 
 def do_login(request):
+    salvo = False
+    if request.GET.get("st") == "1":
+        salvo = True
     if not request.user.is_authenticated:
         if request.method == 'POST':
             auth = CustomAuthUser().authenticate(email=request.POST['email'], senha=request.POST['senha'])
@@ -20,11 +23,11 @@ def do_login(request):
                 login(request, auth)
                 return HttpResponseRedirect('/')
             else:
-                return HttpResponseRedirect('/receita')
-        return render(request, 'appGastos/signin.html', {'form': LoginForm()})
-    return HttpResponseRedirect('/admin')
+                return HttpResponseRedirect('/login/?st=1')
+        return render(request, 'appGastos/signin.html', {'form': LoginForm(), "salvo": salvo})
+    return HttpResponseRedirect('/')
 
-
+@login_required
 def do_logout(request):
     if request.user.is_authenticated:
         logout(request)
@@ -32,10 +35,13 @@ def do_logout(request):
 
 
 def index(request):
-    dicio = {"transacao": Transacao.objects.filter(usuario=request.user).order_by('-data'),
-             "lenT": len(Transacao.objects.filter(usuario=request.user).order_by('data')),
-             "title": "Receitas"}
-    return render(request, 'appGastos/dashboard.html', dicio)
+    if request.user.is_authenticated:
+        dicio = {"transacao": Transacao.objects.filter(usuario=request.user).order_by('-data'),
+                 "lenT": len(Transacao.objects.filter(usuario=request.user).order_by('data')),
+                 "title": "Receitas"}
+        return render(request, 'appGastos/dashboard.html', dicio)
+    else:
+        return render(request, 'appGastos/index.html')
 
 
 def cadastro_usuario(request):
