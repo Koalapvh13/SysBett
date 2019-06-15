@@ -74,7 +74,7 @@ def cadastro_receita(request):
 def cadastro_despesa(request):
     if request.user.is_authenticated and request.method == 'POST':
         salva = TransacaoForm(request.POST)
-        if salva.is_valid():  # TODO - FAZER ESSA DESGRAÇA SALVAR
+        if salva.is_valid():
             despesa = salva.save(commit=False)
             despesa.usuario = request.user
             despesa.tipo = 1
@@ -88,15 +88,17 @@ def cadastro_despesa(request):
 def listagem_despesa(request):
     dicio = {"transacao": Transacao.objects.filter(tipo="1", usuario=request.user).order_by('-data'),
              "lenT": len(Transacao.objects.filter(tipo="1", usuario=request.user).order_by('data')),
-             "title": "Despesas"}
+             'urli': 'despesa',
+             "title": "Despesa"}
     return render(request, 'appGastos/listagem.html', dicio)
 
 
 @login_required
 def listagem_receita(request):
-    dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('-]data'),
+    dicio = {"transacao": Transacao.objects.filter(tipo="0", usuario=request.user).order_by('-data'),
              "lenT": len(Transacao.objects.filter(tipo="0", usuario=request.user).order_by('data')),
-             "title": "Receitas"}
+             'urli': 'receita',
+             "title": "Receita"}
     return render(request, 'appGastos/listagem.html', dicio)
 
 
