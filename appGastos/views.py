@@ -179,6 +179,21 @@ def descricao_conta(request, idit):
 
 
 @login_required
+def deletar_transacao(request, idit):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
+
+    tipo = Transacao.objects.get(pk=idit).tipo
+    Transacao.objects.get(pk=idit).delete()
+    if tipo == "0":
+        return HttpResponseRedirect('/listareceitas')
+    else:
+        return HttpResponseRedirect('/listadespesas')
+
+
+
+@login_required
 def api_transacoes(request, transacao):
     if request.user.is_authenticated:
         lbls = []

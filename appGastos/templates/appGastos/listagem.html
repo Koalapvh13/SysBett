@@ -44,9 +44,15 @@
                     <td>R$ {{item.valor}}</td>
                     <td>{{item.data}}</td>
                     <td>{{item.categoria}}</td>
-                    <td><a href="{% url 'decreceita' item.id %}">
-                        <button type="button" class="btn btn-dark">Editar</button>
-                    </a></td>
+                    <td width="180px">
+                        <a href="{% url 'decreceita' item.id %}">
+                            <button type="button" class="btn btn-dark">Editar</button>
+                        </a>
+                        <a href="{% url 'deletar' item.id %}">
+                            <button type="button" class="btn btn-danger">Excluir</button>
+                        </a>
+
+                    </td>
 
                 </tr>
 
