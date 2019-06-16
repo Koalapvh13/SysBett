@@ -24,6 +24,7 @@ urlpatterns = [
     path('despesa/', cadastro_despesa, name='despesa'),
     path('receita/', cadastro_receita, name='receita'),
     path('users/', cadastro_usuario, name='users'),
+    path('edit_user/', edita_usuario, name='conf'),
     path('login/', do_login, name='login'),
     path('', index, name="mainpage"),
     path('pdf/', pagepdf),

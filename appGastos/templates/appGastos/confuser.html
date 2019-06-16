@@ -1,0 +1,45 @@
+{% extends "appGastos/base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+    <div class="card" style="margin-top: 100px; width: 900px">
+        <article class="card-body">
+            <h3 CLASS="font-weight-bold">{{title}}</h3>
+            <p class="text-dark"><small>Para alterar os dados informe e confirme sua senha. Para mudar sua senha,
+             informe e confirme a nova senha.</small></p>
+            <hr>
+            {% if salvo %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Salvo com Sucesso!</strong>
+            </div>
+            {% endif %}
+            <br>
+            <form style="color: black" method="post" action="{% url urli %}">
+                {% csrf_token %}
+                {% for f in form %}
+
+                {{f.label_tag }}
+                {{f}}
+                <br>
+                {% endfor %}
+                <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Atualizar</button>
+                </div>
+            </form>
+        </article>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock %}

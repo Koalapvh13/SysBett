@@ -44,7 +44,7 @@ def index(request):
     else:
         return render(request, 'appGastos/index.html')
 
-# TODO - uSER CREATE
+
 def cadastro_usuario(request):
     salvo = False
     if request.GET.get("st") == "0":
@@ -58,6 +58,26 @@ def cadastro_usuario(request):
         else:
             dicio = {"form": CustomUserCreationForm(), "title": "Cadastrar Usuário", 'urli': "users", "salvo": salvo}
             return render(request, 'appGastos/signup.html', dicio)
+    return HttpResponseRedirect("/")
+
+
+@login_required
+def edita_usuario(request):
+    salvo = False
+    if request.GET.get("st") == "0":
+        salvo = True
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            salva = CustomUserCreationForm(request.POST, instance=Usuarios.objects.get(pk=request.user.id))
+            salva.is_valid()
+            salva.save()
+            auth = CustomAuthUser().authenticate(email=request.POST['email'], senha=request.POST['password1'])
+            if auth is not None:
+                login(request, auth)
+            return HttpResponseRedirect("/edit_user/?st=0")
+        else:
+            dicio = {"form": CustomUserCreationForm(instance=Usuarios.objects.get(pk=request.user.id)), "title": "Editar Usuário", 'urli': "conf", "salvo": salvo}
+            return render(request, 'appGastos/confuser.html', dicio)
     return HttpResponseRedirect("/")
 
 # TODO - categoria vai Continuar?
