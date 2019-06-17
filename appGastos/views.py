@@ -28,6 +28,7 @@ def do_login(request):
         return render(request, 'appGastos/signin.html', {'form': LoginForm(), "salvo": salvo})
     return HttpResponseRedirect('/')
 
+
 @login_required
 def do_logout(request):
     if request.user.is_authenticated:
@@ -76,9 +77,11 @@ def edita_usuario(request):
                 login(request, auth)
             return HttpResponseRedirect("/edit_user/?st=0")
         else:
-            dicio = {"form": CustomUserCreationForm(instance=Usuarios.objects.get(pk=request.user.id)), "title": "Editar Usuário", 'urli': "conf", "salvo": salvo}
+            dicio = {"form": CustomUserCreationForm(instance=Usuarios.objects.get(pk=request.user.id)),
+                     "title": "Editar Usuário", 'urli': "conf", "salvo": salvo}
             return render(request, 'appGastos/confuser.html', dicio)
     return HttpResponseRedirect("/")
+
 
 # TODO - categoria vai Continuar?
 @login_required
@@ -93,14 +96,14 @@ def cadastro_receita(request):
     if request.GET.get("st") == "0":
         salvo = True
     if request.user.is_authenticated and request.method == 'POST':
-        salva = TransacaoForm(request.POST)
+        salva = TransacaoReceitaForm(request.POST)
         if salva.is_valid():
             receita = salva.save(commit=False)
             receita.usuario = request.user
             receita.tipo = 0
             receita.save()
             return HttpResponseRedirect('/receita/?st=0')
-    dicio = {"form": TransacaoForm(), "title": "Cadastrar Receita", 'urli': 'receita', "salvo": salvo}
+    dicio = {"form": TransacaoReceitaForm(), "title": "Cadastrar Receita", 'urli': 'receita', "salvo": salvo}
     return render(request, 'appGastos/cadTransacao.html', dicio)
 
 
@@ -110,14 +113,14 @@ def cadastro_despesa(request):
     if request.GET.get("st") == "0":
         salvo = True
     if request.user.is_authenticated and request.method == 'POST':
-        salva = TransacaoForm(request.POST)
+        salva = TransacaoDespesaForm(request.POST)
         if salva.is_valid():
             despesa = salva.save(commit=False)
             despesa.usuario = request.user
             despesa.tipo = 1
             despesa.save()
             return HttpResponseRedirect('/despesa/?st=0')
-    dicio = {"form": TransacaoForm(), "title": "Cadastrar Despesa", 'urli': 'despesa', "salvo": salvo}
+    dicio = {"form": TransacaoDespesaForm(), "title": "Cadastrar Despesa", 'urli': 'despesa', "salvo": salvo}
     return render(request, 'appGastos/cadTransacao.html', dicio)
 
 
@@ -154,24 +157,27 @@ def descricao_conta(request, idit):
     tipo = Transacao.objects.get(pk=idit).tipo
     print(tipo)
     if request.method == 'POST':
-        salva = TransacaoForm(request.POST, instance=Transacao.objects.get(pk=idit))
-        if salva.is_valid():
-            salva.save()
-            if tipo == "0":
-                return HttpResponseRedirect('/listareceitas/?st=0')
-            else:
-                return HttpResponseRedirect('/listadespesas/?st=0')
+        if tipo == "0":
+            salva = TransacaoReceitaForm(request.POST, instance=Transacao.objects.get(pk=idit))
+            if salva.is_valid():
+                salva.save()
+            return HttpResponseRedirect('/listareceitas/?st=0')
         else:
-            pass
+            salva = TransacaoDespesaForm(request.POST, instance=Transacao.objects.get(pk=idit))
+            if salva.is_valid():
+                salva.save()
+            return HttpResponseRedirect('/listadespesas/?st=0')
+    else:
+        pass
     if tipo == "0":
         dicio = {
-            "form": TransacaoForm(instance=Transacao.objects.get(pk=idit)),
+            "form": TransacaoReceitaForm(instance=Transacao.objects.get(pk=idit)),
             "title": "Atualizar Receita",
             'urli': 'decreceita',
             'id_reg': idit}
     else:
         dicio = {
-            "form": TransacaoForm(instance=Transacao.objects.get(pk=idit)),
+            "form": TransacaoDespesaForm(instance=Transacao.objects.get(pk=idit)),
             "title": "Atualizar registro",
             'urli': 'decdespesa',
             'id_reg': idit}
@@ -190,7 +196,6 @@ def deletar_transacao(request, idit):
         return HttpResponseRedirect('/listareceitas')
     else:
         return HttpResponseRedirect('/listadespesas')
-
 
 
 @login_required
@@ -240,7 +245,7 @@ def api_values(request):
             data = {
                 "receita": val_receita,
                 "despesa": val_despesa,
-                "saldo": round(val_receita-val_despesa, 2)
+                "saldo": round(val_receita - val_despesa, 2)
             }
             return JsonResponse(data)
         except Exception:
@@ -248,6 +253,7 @@ def api_values(request):
                 "erro": Exception,
             }
             return JsonResponse(data)
+
 
 @login_required
 def pagepdf(request):

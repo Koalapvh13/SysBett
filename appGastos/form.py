@@ -30,7 +30,8 @@ class CategoriaForm(forms.ModelForm):
         }
 
 
-class TransacaoForm(forms.ModelForm):
+class TransacaoReceitaForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.filter(tipo="Receita"), widget=forms.Select(attrs={'class': 'form-control'}),)
     class Meta:
         model = Transacao
         exclude = ['tipo', 'usuario']
@@ -39,6 +40,23 @@ class TransacaoForm(forms.ModelForm):
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'valor': forms.NumberInput(attrs={'class': 'form-control'}),
             'data': forms.DateInput(attrs={'class': 'form-control', 'type': "date"}),
-            'categoria': forms.Select(attrs={'class': 'form-control'}),
 
         }
+
+
+class TransacaoDespesaForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.filter(tipo="Despesa"), widget=forms.Select(attrs={'class': 'form-control'}),)
+    class Meta:
+        model = Transacao
+        exclude = ['tipo', 'usuario']
+
+        widgets = {
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
+            'valor': forms.NumberInput(attrs={'class': 'form-control'}),
+            'data': forms.DateInput(attrs={'class': 'form-control', 'type': "date"}),
+
+        }
+
+
+class Relatorio(forms.Form):
+    data_inicial = forms.DateField()
