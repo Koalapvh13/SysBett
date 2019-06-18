@@ -81,16 +81,17 @@
             </a>
         </div>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Home</a></li>
-            <li class="list-inline-item"><a href="#">Services</a></li>
-            <li class="list-inline-item"><a href="#">About</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="{% url 'mainpage' %}">Home</a></li>
+            <li class="list-inline-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Services</a></li>
+            <li class="list-inline-item"><a href="https://www.youtube.com/watch?v=TjQ1eJcRZgY">About</a></li>
+            <li class="list-inline-item"><a href="https://www.youtube.com/watch?v=6rpereSDELs">Terms</a></li>
+            <li class="list-inline-item"><a href="https://www.youtube.com/watch?v=_FyhpAvav7U">Privacy Policy</a></li>
         </ul>
         <p class="copyright">KoalaDevs © 2019</p>
     </footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'appGastos/script.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -53,8 +53,13 @@
                 <p class="card-text">
                     <canvas id="barchart-chart1" width="100" height="50"></canvas>
                 </p>
-            </div>
 
+            </div>
+            <div class="float-right">
+                <a href="{% url 'relatorio' %}">
+                    <button type="button" class="btn btn-dark">Gerar Relatório</button>
+                </a>
+            </div>
         </div>
 
         <div class="col-sm-4  border shadow-lg p-3 mb-5  rounded justify-content-center" style="padding:0px 50px">
@@ -112,7 +117,11 @@
                     <canvas id="doughnut-chart1" width="100" height="100"></canvas>
                 </p>
             </div>
-
+            <div class="float-right">
+                <a href="{% url 'listareceita' %}">
+                    <button type="button" class="btn btn-dark">Visualizar Receitas</button>
+                </a>
+            </div>
         </div>
 
         <div class="col-sm-4  border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
@@ -123,7 +132,11 @@
                     <canvas id="doughnut-chart2" width="100" height="100"></canvas>
                 </p>
             </div>
-
+            <div class="float-right">
+                <a href="{% url 'listadespesa' %}">
+                    <button type="button" class="btn btn-dark">Visualizar Despesas</button>
+                </a>
+            </div>
         </div>
 
         <!--<div class="col-sm-4  border shadow-lg p-3 mb-5  rounded justify-content-center" style="padding:0px 50px">
