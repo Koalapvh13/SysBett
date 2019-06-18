@@ -62,7 +62,3 @@ class Transacao(models.Model):
 
     def __str__(self):
         return self.descricao
-
-# todo - ADD CLASS RELATÓRIO
-class Relatorio(models.Model):
-    pass

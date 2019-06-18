@@ -4,9 +4,6 @@
 
 
 {% block content %}
-<h1></h1>
-<p style="color: black">wellcome, {{user.nome}}!</p>
-
 
 <div class="row justify-content-center">
     <div class="card" style="margin-top: 100px">
@@ -16,11 +13,13 @@
             <br>
             <form style="color: black" method="post" action="{% url urli %}">
                 {% csrf_token %}
-                {{form.descricao.label_tag }}
-                {{form.descricao}}
+                {% for i in form %}
+                {{i.label_tag }}
+                {{i}}
                 <br>
+                {% endfor %}
                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block">Gerar Relatório</button>
                 </div>
             </form>
         </article>

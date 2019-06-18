@@ -57,34 +57,6 @@
 
         </div>
 
-    </div>
-</div>
-
-<div class="footer-basic" style="margin-top:-5%">
-    <div class="row justify-content-center">
-
-        <div class="col-sm-3  border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
-            <div class="card-body">
-                <h3 CLASS="font-weight-bold">RECEITAS</h3>
-                <hr>
-                <p class="card-text">
-                    <canvas id="doughnut-chart1" width="100" height="150"></canvas>
-                </p>
-            </div>
-
-        </div>
-
-        <div class="col-sm-3  border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
-            <div class="card-body">
-                <h3 CLASS="font-weight-bold">DESPESAS</h3>
-                <hr>
-                <p class="card-text">
-                    <canvas id="doughnut-chart2" width="100" height="150"></canvas>
-                </p>
-            </div>
-
-        </div>
-
         <div class="col-sm-4  border shadow-lg p-3 mb-5  rounded justify-content-center" style="padding:0px 50px">
             <div class="card-body">
                 <h3 CLASS="font-weight-bold">ÚLTIMOS LANÇAMENTOS</h3>
@@ -126,6 +98,75 @@
             {% endif %}
 
         </div>
+    </div>
+</div>
+
+<div class="footer-basic" style="margin-top:-5%">
+    <div class="row justify-content-center">
+
+        <div class="col-sm-4  border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
+            <div class="card-body">
+                <h3 CLASS="font-weight-bold">RECEITAS</h3>
+                <hr>
+                <p class="card-text">
+                    <canvas id="doughnut-chart1" width="100" height="100"></canvas>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="col-sm-4  border shadow-lg p-3 mb-5  rounded" style="margin-right:20px">
+            <div class="card-body">
+                <h3 CLASS="font-weight-bold">DESPESAS</h3>
+                <hr>
+                <p class="card-text">
+                    <canvas id="doughnut-chart2" width="100" height="100"></canvas>
+                </p>
+            </div>
+
+        </div>
+
+        <!--<div class="col-sm-4  border shadow-lg p-3 mb-5  rounded justify-content-center" style="padding:0px 50px">
+            <div class="card-body">
+                <h3 CLASS="font-weight-bold">ÚLTIMOS LANÇAMENTOS</h3>
+
+                {% if lenT > 0 %}
+                <table class="table table-reflow flex-wrap">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in transacao %}
+                    {% if forloop.counter < 6 %}
+                    <tr>
+                        <td>
+                            {% if item.tipo == "0" %}
+                            <p class="text-success">▲</p>
+                            {% else %}
+                            <p class="text-danger">▼</p>
+                            {% endif %}
+                        </td>
+                        <td>{{item.descricao}}</td>
+                        <td>R$ {{item.valor}}</td>
+                        <td>{{item.data}}</td>
+
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <h3>Não há {{title}} Registradas!</h3>
+            </div>
+            {% endif %}
+
+        </div>-->
     </div>
 </div>
 
@@ -173,26 +214,6 @@ $.ajax({
 })
 
 function barChart(id, arrayLabels, arrayValues){
-   /*  new Chart(document.getElementById(id), {
-            type: 'bar',
-            data: {
-              labels: arrayLabels,
-              datasets: [
-                {
-                  label: "Receita (R$)",
-                  backgroundColor: ["#28A745", "#DC3545"],
-                  data: arrayValues
-                }
-              ]
-            },
-            options: {
-              title: {
-                display: true,
-                text:"562 "
-              }
-            }
-        });
-     */
         new Chart(document.getElementById(id), {
             type: 'bar',
             data: {

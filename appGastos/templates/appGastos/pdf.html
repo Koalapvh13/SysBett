@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Sales Report</title>
+    <title>Relatório Geral de Movimentações Financeiras - SysBettina</title>
     <style type="text/css">
         @page {
             size: A4;
@@ -46,19 +46,40 @@
             font-size: 1.1em;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-
+{% load static %}
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h3>Sales Report - {{ today | date:"d/m/Y" }}</h3>
+        <h3>SysBettina - Gestor de Finanças pessoais</h3>
         </div>
-
+        <h1 class="text-center">Relatório Geral de Movimentação Financeira  - {{ ini }} a {{ end }} </h1>
         <div class="list-group">
+
             <p>Name: {{ request.user.nome }}</p>
         </div>
 
+        <h1 class="text-center">Resumo</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Receitas</th>
+                <th>Despesas</th>
+                <th>Saldo</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>R$ {{receita}}</td>
+                    <td>R$ {{despesa}}</td>
+                    <td>R$ {{saldo}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1 class="text-center">Receitas</h1>
         <table class="table">
             <thead>
             <tr>
@@ -69,7 +90,29 @@
             </tr>
             </thead>
             <tbody>
-            {% for sale in sales %}
+            {% for sale in lreceita %}
+                <tr>
+                    <td>{{ sale.descricao}}</td>
+                    <td>{{ sale.data}}</td>
+                    <td>{{ sale.categoria }}</td>
+                    <td>R&dollar; {{ sale.valor }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h1 class="text-center">Despesas</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Transação</th>
+                <th>Data</th>
+                <th>Categoria</th>
+                <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in ldespesa %}
                 <tr>
                     <td>{{ sale.descricao}}</td>
                     <td>{{ sale.data}}</td>
@@ -81,6 +124,9 @@
         </table>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 </html>

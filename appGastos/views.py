@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth import login, logout
 from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, JsonResponse
@@ -38,7 +40,7 @@ def do_logout(request):
 
 def index(request):
     if request.user.is_authenticated:
-        dicio = {"transacao": Transacao.objects.filter(usuario=request.user).order_by('-data'),
+        dicio = {"transacao": Transacao.objects.filter(usuario=request.user).order_by('-id'),
                  "lenT": len(Transacao.objects.filter(usuario=request.user).order_by('data')),
                  "title": "Receitas"}
         return render(request, 'appGastos/dashboard.html', dicio)
@@ -83,11 +85,16 @@ def edita_usuario(request):
     return HttpResponseRedirect("/")
 
 
-# TODO - categoria vai Continuar?
 @login_required
-def cadastro_categoria(request):
-    dicio = {"form": CategoriaForm(), "title": "Cadastrar Categoria", 'urli': 'categoria'}
-    return render(request, 'appGastos/cadCategoria.html', dicio)
+def gen_report(request):
+    if request.method == 'POST':
+        inicial = request.POST['data_inicial']
+        final = request.POST['data_final']
+        print(inicial, final)
+        print(request.POST['data_inicial'])
+        return HttpResponseRedirect("/pdf/?ini="+inicial+"&end="+final)
+    dicio = {"form": RelatorioGeral(), "title": "Gerar Relatório Geral", 'urli': 'relatorio'}
+    return render(request, 'appGastos/genReport.html', dicio)
 
 
 @login_required
@@ -257,11 +264,32 @@ def api_values(request):
 
 @login_required
 def pagepdf(request):
-    sales = Transacao.objects.all()
-    today = timezone.now()
+    min_date = request.GET.get("ini")
+    max_date = request.GET.get("end")
+
+    lista_receita = Transacao.objects.filter(tipo="0", usuario=request.user, data__gte=min_date, data__lte=max_date).order_by('-data')
+    lista_despesa = Transacao.objects.filter(tipo="1", usuario=request.user, data__gte=min_date, data__lte=max_date).order_by('-data')
+
+    receita = Transacao.objects.filter(tipo=0, usuario=request.user, data__gte=min_date, data__lte=max_date)
+    despesa = Transacao.objects.filter(tipo=1, usuario=request.user, data__gte=min_date, data__lte=max_date)
+
+    val_receita = 0
+    val_despesa = 0
+
+    for i in receita:
+        val_receita += i.valor
+
+    for j in despesa:
+        val_despesa += j.valor
+
     params = {
-        'today': today,
-        'sales': sales,
-        'request': request
+        'ini': min_date[8:10]+"/"+min_date[5:7]+"/"+min_date[0:4],
+        'end': max_date[8:10]+"/"+max_date[5:7]+"/"+max_date[0:4],
+        'lreceita': lista_receita,
+        'ldespesa': lista_despesa,
+        'request': request,
+        'receita': val_receita,
+        'despesa': val_despesa,
+        'saldo': round(val_receita - val_despesa, 2)
     }
     return Render.render('appGastos/pdf.html', params)
