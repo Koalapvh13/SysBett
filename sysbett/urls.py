@@ -27,6 +27,7 @@ urlpatterns = [
     path('edit_user/', edita_usuario, name='conf'),
     path('login/', do_login, name='login'),
     path('', index, name="mainpage"),
+    path('/', index, name="mainpage"),
     path('pdf/', pagepdf),
     path('listadespesas/', listagem_despesa,  name="listadespesa"),
     path('listareceitas/', listagem_receita,  name="listareceita"),
