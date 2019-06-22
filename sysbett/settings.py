@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import django_heroku
+
 django_heroku.settings(locals())
 DATE_FORMAT = "d/m/Y"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -29,7 +29,6 @@ SECRET_KEY = '9!k47+7+cdz!ah$5yjyd2k1_kjp+9ix=l*5f=-14^m7(u9owdw'
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sysbett.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -83,7 +82,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -103,7 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -117,7 +114,6 @@ USE_L10N = False
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -126,7 +122,5 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'appGastos.Usuarios'
-
-
