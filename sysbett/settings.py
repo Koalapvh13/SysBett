@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import django_heroku
-
-django_heroku.settings(locals())
 DATE_FORMAT = "d/m/Y"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -124,3 +122,5 @@ LOGOUT_REDIRECT_URL = 'login'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'appGastos.Usuarios'
+
+django_heroku.settings(locals())
