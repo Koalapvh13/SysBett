@@ -293,3 +293,18 @@ def pagepdf(request):
         'saldo': round(val_receita - val_despesa, 2)
     }
     return Render.render('appGastos/pdf.html', params)
+
+
+def categoriasadd(request):
+    receita = ['Salário', 'Outras Receitas']
+    despesa = ['Alimentação', 'Sobrevivência', 'Aluguel', 'Combustível', 'Educação', 'Lazer', 'Supermercado', 'Vestuário', 'Saúde', 'Comunicação', 'Água e Esgoto', 'Luz', 'Outros']
+
+    try:
+        for i in receita:
+            Categoria.objects.create(descricao=i, tipo="Receita")
+
+        for j in despesa:
+            Categoria.objects.create(descricao=j, tipo="Despesa")
+        return HttpResponseRedirect("/")
+    except Exception:
+        return HttpResponseRedirect("/login")
