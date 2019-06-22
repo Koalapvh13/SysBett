@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
+django_heroku.settings(locals())
 DATE_FORMAT = "d/m/Y"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9!k47+7+cdz!ah$5yjyd2k1_kjp+9ix=l*5f=-14^m7(u9owdw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
