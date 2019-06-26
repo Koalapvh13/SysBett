@@ -19,3 +19,9 @@ Para acessar um exemplo do sistema acesse: https://sysbettina.herokuapp.com/
 - Recomenda-se a criação de um ambiente virtual (Virtualenv) para o trabalho com o SysBettina. Utilize o comando ```python -m venv NomeDoSeuAmbiente``` para criar a sua virtualenv.
 - Para ativar a virtualenv utilize o comando ```NomeDoSeuAmbiente\Scripts\activate.bat```.
 - Após a ativação do ambiente utilize ```pip install -r requeriments.txt``` para instalar as dependências necessárias.
+
+## Criar o Usuário Admin
+- Usando o Terminal, acesse a pasta onde se encontra o projeto.
+- Rode o comando ```python manage.py makemigrations``` para estruturar o banco de dados e o comando ```python manage.py migrate``` para salvar as mudanças.
+- Crie um novo usuário master ulizando ```python manage.py createsuperuser```. forneça todas as informações solicitadas.
+- Para rodar a aplicação inicie o servidor local com o comando ```python manage.py runserver```.
