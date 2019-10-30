@@ -40,7 +40,6 @@ class TransacaoReceitaForm(forms.ModelForm):
             'descricao': forms.TextInput(attrs={'class': 'form-control'}),
             'valor': forms.NumberInput(attrs={'class': 'form-control'}),
             'data': forms.DateInput(attrs={'class': 'form-control', 'type': "date"}),
-
         }
 
 
