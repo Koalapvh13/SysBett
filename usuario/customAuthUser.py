@@ -1,4 +1,4 @@
-from appGastos.models import Usuarios
+from usuario.models import Usuarios
 
 
 class CustomAuthUser:
